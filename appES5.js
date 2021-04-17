@@ -36,6 +36,20 @@ UI.prototype.deleteCourse = function (element){
     }
 }
 
+UI.prototype.showAlert = function (message,className){
+    var alert = `
+        <div class="alert alert-${className}">
+            ${message}
+        </div>
+    `;
+    const row = document.querySelector('.row');
+    //beforeBegin,afterBegin,beforeEnd,afterEnd
+    row.insertAdjacentHTML('beforeBegin',alert);
+    setTimeout(()=> {
+        document.querySelector('.alert').remove();
+    },2500);
+}
+
 document.getElementById('new-course').addEventListener('submit',function(e){
 
     const title = document.getElementById('title').value;
@@ -45,12 +59,20 @@ document.getElementById('new-course').addEventListener('submit',function(e){
     //kurs objesi oluşturma
     const course = new Course(title,instructor,image);
 
-    //save to database
+    //create ui
     const ui = new UI();
-    // ADD course to list
-    ui.addCourseToList(course);
-    // clear controls
-    ui.clearControls();
+    if(title==='' || instructor==='' || image===''){
+        ui.showAlert('Lütfen tüm alanları doldurunuz.','warning');  // bootstrap warning alerti
+    }else {
+        // ADD course to list
+        ui.addCourseToList(course);
+        // clear controls
+        ui.clearControls();
+
+        ui.showAlert('Kurs eklendi.','success');    // bootstrap success alerti.
+    }
+
+
 
 
     e.preventDefault();     // submit olayını kesme işlemi.
@@ -58,5 +80,6 @@ document.getElementById('new-course').addEventListener('submit',function(e){
 
 document.getElementById('course-list').addEventListener('click',function(e){
     const ui = new UI();
-    ui.deleteCourse(e.target);   
+    ui.deleteCourse(e.target); 
+    ui.showAlert('Kursu sildiniz.','danger');  
 });
