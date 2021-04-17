@@ -43,7 +43,7 @@ UI.prototype.showAlert = function (message,className){
         </div>
     `;
     const row = document.querySelector('.row');
-    //beforeBegin,afterBegin,beforeEnd,afterEnd
+    //beforeBegin,afterBegin,beforeEnd,afterEnd     --  öncesine veya sonrasına atama yapmak için kullanılır
     row.insertAdjacentHTML('beforeBegin',alert);
     setTimeout(()=> {
         document.querySelector('.alert').remove();
