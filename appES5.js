@@ -18,7 +18,7 @@ UI.prototype.addCourseToList = function(course){
             <td><img src="img/${course.image}"></img></td>
             <td>${course.title}</td>
             <td>${course.instructor}</td>
-            <td><a href="#" class="btn btn-danger btn-sm">Delete</a></td>
+            <td><a href="#" class="btn btn-danger btn-sm delete">Delete</a></td>
         </tr>
     `;
     list.innerHTML += html;
@@ -30,6 +30,12 @@ UI.prototype.clearControls = function () {
     const image = document.getElementById('image').value="";
 }
 
+UI.prototype.deleteCourse = function (element){
+    if (element.classList.contains('delete')){
+        element.parentElement.parentElement.remove();
+    }
+}
+
 document.getElementById('new-course').addEventListener('submit',function(e){
 
     const title = document.getElementById('title').value;
@@ -39,17 +45,18 @@ document.getElementById('new-course').addEventListener('submit',function(e){
     //kurs objesi oluşturma
     const course = new Course(title,instructor,image);
 
-    console.log(course);
     //save to database
     const ui = new UI();
-
     // ADD course to list
     ui.addCourseToList(course);
-
     // clear controls
     ui.clearControls();
 
 
-
     e.preventDefault();     // submit olayını kesme işlemi.
+});
+
+document.getElementById('course-list').addEventListener('click',function(e){
+    const ui = new UI();
+    ui.deleteCourse(e.target);   
 });
